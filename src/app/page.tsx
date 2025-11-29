@@ -1,6 +1,5 @@
 "use client";
 
-import { useCoins } from "@/hooks/queries/use-coins";
 import {
   Table,
   TableBody,
@@ -9,7 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Coin } from "@/types/coin";
+import { useCoins } from "@/hooks/queries/use-coins";
+import type { Coin } from "@/lib/coin-gecko";
 
 export default function Home() {
   const { data: coins } = useCoins();
@@ -41,19 +41,21 @@ export default function Home() {
                     width={24}
                     height={24}
                   />
-                  {coin.name} ({coin.symbol.toUpperCase()})
+                  {coin.name} ({coin.symbol?.toUpperCase()})
                 </TableCell>
-                <TableCell>${coin.current_price.toLocaleString()}</TableCell>
+                <TableCell>${coin.current_price?.toLocaleString()}</TableCell>
                 <TableCell
                   className={
-                    coin.price_change_percentage_24h >= 0
+                    (coin.price_change_percentage_24h ?? 0) >= 0
                       ? "text-green-500"
                       : "text-red-500"
                   }
                 >
-                  {coin.price_change_percentage_24h.toFixed(2)}%
+                  {(coin.price_change_percentage_24h ?? 0).toFixed(2)}%
                 </TableCell>
-                <TableCell>${coin.market_cap.toLocaleString()}</TableCell>
+                <TableCell>
+                  ${(coin.market_cap ?? 0).toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

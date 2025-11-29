@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@coingecko/coingecko-typescript':
+        specifier: ^2.3.0
+        version: 2.3.0
       '@tanstack/react-query':
         specifier: ^5.90.11
         version: 5.90.11(react@19.2.0)
@@ -134,6 +137,9 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@coingecko/coingecko-typescript@2.3.0':
+    resolution: {integrity: sha512-MwsdCvsAt+4fkvu1OMikMlDzr1Dkb1osyn5yZHWasWCdIn2WXqEhXH/11GxYl6Fdft5V/teqBughbD55tmH5+w==}
 
   '@emnapi/runtime@1.7.1':
     resolution: {integrity: sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==}
@@ -721,6 +727,8 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.2.0':
     optional: true
+
+  '@coingecko/coingecko-typescript@2.3.0': {}
 
   '@emnapi/runtime@1.7.1':
     dependencies:

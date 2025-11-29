@@ -27,6 +27,7 @@ export default function AppCoinsTable() {
             <TableHead>Price</TableHead>
             <TableHead>24h Change</TableHead>
             <TableHead>Market Cap</TableHead>
+            <TableHead>24h Volume</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -48,6 +49,7 @@ export default function AppCoinsTable() {
                 {(coin.price_change_percentage_24h ?? 0).toFixed(2)}%
               </TableCell>
               <TableCell>${(coin.market_cap ?? 0).toLocaleString()}</TableCell>
+              <TableCell>${(coin.total_volume ?? 0).toLocaleString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -1,41 +1,47 @@
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { usePaginationParams } from "@/hooks/use-pagination-params";
 
 interface DataTablePaginationProps {
-  currentPage: number;
-  totalItems?: number;
-  pageSize: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
   isLoading?: boolean;
+  hasNextPage: boolean;
 }
 
 const disabledStyles = "pointer-events-none opacity-50";
 const enabledStyles = "cursor-pointer";
 
 export function DataTablePagination({
-  currentPage,
-  pageSize,
-  onPageChange,
-  onPageSizeChange,
-  hasNextPage,
-  hasPreviousPage,
   isLoading = false,
+  hasNextPage,
 }: DataTablePaginationProps) {
+  const { page, pageSize, goToPage, changePageSize, hasPreviousPage } =
+    usePaginationParams();
   const generatePageNumbers = () => {
     const pages: (number | "ellipsis")[] = [];
     const siblingsCount = 2;
 
     pages.push(1);
 
-    if (currentPage > siblingsCount + 2) {
+    if (page > siblingsCount + 2) {
       pages.push("ellipsis");
     }
 
-    const startPage = Math.max(2, currentPage - siblingsCount);
-    const endPage = currentPage + siblingsCount;
+    const startPage = Math.max(2, page - siblingsCount);
+    const endPage = page + siblingsCount;
 
     for (let i = startPage; i <= endPage; i++) {
       if (!pages.includes(i)) {
@@ -58,7 +64,7 @@ export function DataTablePagination({
         <p className="text-sm font-medium">Rows</p>
         <Select
           value={`${pageSize}`}
-          onValueChange={(value) => onPageSizeChange(Number(value))}
+          onValueChange={(value) => changePageSize(Number(value))}
           disabled={isLoading}
         >
           <SelectTrigger className="h-8 w-20">
@@ -78,24 +84,26 @@ export function DataTablePagination({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              onClick={() => onPageChange(currentPage - 1)}
-              className={!hasPreviousPage || isLoading ? disabledStyles : enabledStyles}
+              onClick={() => goToPage(page - 1)}
+              className={
+                !hasPreviousPage || isLoading ? disabledStyles : enabledStyles
+              }
             />
           </PaginationItem>
 
-          {pageNumbers.map((page, index) =>
-            page === "ellipsis" ? (
-              <PaginationItem key={`ellipsis-${index}`}>
+          {pageNumbers.map((currentPage, index) =>
+            currentPage === "ellipsis" ? (
+              <PaginationItem key={`ellipsis-${index}-${page}`}>
                 <PaginationEllipsis />
               </PaginationItem>
             ) : (
-              <PaginationItem key={page}>
+              <PaginationItem key={currentPage}>
                 <PaginationLink
-                  onClick={() => onPageChange(page)}
+                  onClick={() => goToPage(currentPage)}
                   isActive={currentPage === page}
                   className={isLoading ? disabledStyles : enabledStyles}
                 >
-                  {page}
+                  {currentPage}
                 </PaginationLink>
               </PaginationItem>
             )
@@ -103,8 +111,10 @@ export function DataTablePagination({
 
           <PaginationItem>
             <PaginationNext
-              onClick={() => onPageChange(currentPage + 1)}
-              className={!hasNextPage || isLoading ? disabledStyles : enabledStyles}
+              onClick={() => goToPage(page + 1)}
+              className={
+                !hasNextPage || isLoading ? disabledStyles : enabledStyles
+              }
             />
           </PaginationItem>
         </PaginationContent>
@@ -112,4 +122,3 @@ export function DataTablePagination({
     </div>
   );
 }
-

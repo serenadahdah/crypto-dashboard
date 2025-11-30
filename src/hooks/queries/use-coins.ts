@@ -1,19 +1,22 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/query-keys";
+import { usePaginationParams } from "@/hooks/use-pagination-params";
 import { COIN_GECKO_CLIENT } from "@/lib/coin-gecko";
-import { type PaginationParams } from "@/types/pagination";
+import { QUERY_KEYS } from "@/lib/query-keys";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export const useCoins = ({ page = 1, per_page = 20, order = "market_cap_desc" }: PaginationParams & { order?: string } = {}) =>
-  useQuery({
-    queryKey: [QUERY_KEYS.COINS, page, per_page, order],
+export const useCoins = ({ order = "market_cap_desc" }: { order?: string } = {}) => {
+  const { page, pageSize } = usePaginationParams();
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.COINS, page, pageSize, order],
     queryFn: () =>
       COIN_GECKO_CLIENT.coins.markets.get({
         vs_currency: "usd",
         page,
-        per_page,
+        per_page: pageSize,
         order: order as "market_cap_desc" | "market_cap_asc" | "volume_asc" | "volume_desc",
       }),
     placeholderData: keepPreviousData,
     refetchInterval: 60 * 1000,
   });
+}
 

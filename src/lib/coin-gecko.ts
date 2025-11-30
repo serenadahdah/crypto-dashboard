@@ -6,3 +6,4 @@ export const COIN_GECKO_CLIENT = new Coingecko({
 })
 
 export type Coin = Coingecko.Coins.MarketGetResponse.MarketGetResponseItem
+export type CoinOrderingParams = Coingecko.Coins.MarketGetParams['order'];

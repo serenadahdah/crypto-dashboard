@@ -11,8 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { RotateCcw } from "lucide-react";
 import { useCoins } from "@/hooks/queries/use-coins";
-import { type Coin } from "@/lib/coin-gecko";
+import type { Coin } from "@/lib/coin-gecko";
 import { useMemo, useState } from "react";
 import { useTableSorting } from "@/hooks/use-table-sorting";
 import { usePaginationParams } from "@/hooks/use-pagination-params";
@@ -20,11 +22,21 @@ import { usePaginationParams } from "@/hooks/use-pagination-params";
 export default function AppCoinsTable() {
   const { page, pageSize } = usePaginationParams();
   const [search, setSearch] = useState("");
-  const { sort, setSort, sortField, sortDirection } = useTableSorting();
-  const { data: coins, isLoading, isError } = useCoins({ order: sort });
+  const { currentSort, resetSort } = useTableSorting();
+  const { data: coins, isLoading, isError } = useCoins();
 
+  const hasActiveFilters =
+    search.trim() !== "" || currentSort !== "market_cap_desc" || page > 1;
+
+  const handleReset = () => {
+    setSearch("");
+    resetSort();
+  };
+
+  // TODO: refactor search to API filtering
   const filteredCoins = useMemo(() => {
-    if (!coins || !search.trim()) return coins || [];
+    if (!coins || !search.trim()) return coins ?? [];
+
     const query = search.toLowerCase();
     return coins.filter(
       (coin: Coin) =>
@@ -40,37 +52,42 @@ export default function AppCoinsTable() {
 
   return (
     <div className="w-full space-y-4">
-      <DataTableSearch
-        value={search}
-        onChange={setSearch}
-        placeholder="Search by name or symbol..."
-        disabled={isLoading}
-      />
+      <div className="flex items-center gap-2">
+        <DataTableSearch
+          value={search}
+          onChange={setSearch}
+          placeholder="Search by name or symbol..."
+          disabled={isLoading}
+        />
+        {hasActiveFilters && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleReset}
+            className="h-9 px-3"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
+        )}
+      </div>
 
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="w-12">#</TableHead>
             <TableHead>Coin</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>24h Change</TableHead>
             <TableHead>
-              <DataTableSortHeader
-                label="Market Cap"
-                field="market_cap"
-                currentField={sortField}
-                currentDirection={sortDirection}
-                onSort={setSort}
-              />
+              <DataTableSortHeader label="Price" field="price" />
             </TableHead>
             <TableHead>
-              <DataTableSortHeader
-                label="24h Volume"
-                field="volume"
-                currentField={sortField}
-                currentDirection={sortDirection}
-                onSort={setSort}
-              />
+              <DataTableSortHeader label="24h Change" field="change_24h" />
+            </TableHead>
+            <TableHead>
+              <DataTableSortHeader label="Market Cap" field="market_cap" />
+            </TableHead>
+            <TableHead>
+              <DataTableSortHeader label="24h Volume" field="volume" />
             </TableHead>
           </TableRow>
         </TableHeader>

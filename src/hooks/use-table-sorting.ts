@@ -1,35 +1,52 @@
-import { useState } from "react";
+"use client";
+import { useSearchParamsState } from "./use-search-params-state";
+import { type SortValue, DEFAULT_SORT } from "@/types/sorting";
 
-export type SortField = "market_cap" | "volume";
-export type SortDirection = "asc" | "desc";
-export type ApiSortOrder = "market_cap_desc" | "market_cap_asc" | "volume_desc" | "volume_asc";
+const SORT_PARAM = "sort";
 
-export interface SortOption {
-    field: SortField;
-    direction: SortDirection;
+interface UseTableSortingParams {
+    defaultSort?: SortValue;
 }
 
-const toApiSortOrder = (sort: SortOption): ApiSortOrder => {
-    return `${sort.field}_${sort.direction}` as const;
+const isValidSortValue = (value: string | null): value is SortValue => {
+    if (!value) return false;
+    const validSorts: SortValue[] = [
+        "market_cap_desc",
+        "market_cap_asc",
+        "volume_desc",
+        "volume_asc",
+        "price_desc",
+        "price_asc",
+        "change_24h_desc",
+        "change_24h_asc",
+    ];
+    return validSorts.includes(value as SortValue);
 };
 
-export const useTableSorting = (callback?: () => void) => {
-    const [sortField, setSortField] = useState<SortField>("market_cap");
-    const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
-    const sort = toApiSortOrder({ field: sortField, direction: sortDirection });
+export const useTableSorting = ({
+    defaultSort = DEFAULT_SORT,
+}: UseTableSortingParams = {}) => {
+    const { getParam, updateParams } = useSearchParamsState();
 
-    const setSort = (field: SortField) => {
-        if (sortField === field) {
-            setSortDirection(sortDirection === "desc" ? "asc" : "desc");
-        } else {
-            setSortField(field);
-            setSortDirection("desc");
-        }
-        if (callback) {
-            callback();
-        }
+    const sortParam = getParam(SORT_PARAM);
+    const currentSort: SortValue = isValidSortValue(sortParam) ? sortParam : defaultSort;
+
+    const setSort = (newSort: SortValue) => {
+        updateParams({
+            [SORT_PARAM]: newSort === defaultSort ? null : newSort,
+        });
     };
 
-    return { sort, setSort, sortField, sortDirection };
+    const resetSort = () => {
+        updateParams({
+            [SORT_PARAM]: null,
+            page: null,
+        });
+    };
 
-}
+    return {
+        currentSort,
+        setSort,
+        resetSort,
+    };
+};

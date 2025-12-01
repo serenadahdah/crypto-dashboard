@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import Providers from "@/app/providers";
-import { AppSidebar } from "@/components/app-sidebar";
 import { AppBreadcrumb } from "@/components/app-breadcrumb";
+import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { WalletConnectButton } from "@/components/wallet-connect-button";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,9 +48,7 @@ export default function RootLayout({
                   className="mr-2 data-[orientation=vertical]:h-4"
                 />
                 <AppBreadcrumb />
-                <div className="ml-auto">
-                  <ConnectButton />
-                </div>
+                <WalletConnectButton />
               </header>
               <main className="flex-1 overflow-auto">{children}</main>
             </SidebarInset>

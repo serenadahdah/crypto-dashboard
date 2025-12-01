@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
+import { ChangeBadge } from "@/components/ui/change-badge";
 import { useCoins } from "@/hooks/queries/use-coins";
 import type { Coin } from "@/lib/coin-gecko";
 import { useMemo, useState } from "react";
@@ -117,14 +118,8 @@ export default function AppCoinsTable() {
                   {coin.name} ({coin.symbol?.toUpperCase()})
                 </TableCell>
                 <TableCell>${coin.current_price?.toLocaleString()}</TableCell>
-                <TableCell
-                  className={
-                    (coin.price_change_percentage_24h ?? 0) >= 0
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }
-                >
-                  {(coin.price_change_percentage_24h ?? 0).toFixed(2)}%
+                <TableCell>
+                  <ChangeBadge value={coin.price_change_percentage_24h ?? 0} />
                 </TableCell>
                 <TableCell>
                   ${(coin.market_cap ?? 0).toLocaleString()}

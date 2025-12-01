@@ -10,6 +10,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +48,9 @@ export default function RootLayout({
                   className="mr-2 data-[orientation=vertical]:h-4"
                 />
                 <AppBreadcrumb />
+                <div className="ml-auto">
+                  <ConnectButton />
+                </div>
               </header>
               <main className="flex-1 overflow-auto">{children}</main>
             </SidebarInset>

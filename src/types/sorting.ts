@@ -1,4 +1,3 @@
-
 export type ApiSortValue =
   | "market_cap_desc"
   | "market_cap_asc"

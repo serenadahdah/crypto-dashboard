@@ -7,18 +7,22 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const DEFAULT_API_SORT: ApiSortValue = "market_cap_desc";
 
-const sortArray = <T>(array: T[], key: keyof T, ascending: boolean = true): T[] => {
+const sortArray = <T>(
+  array: T[],
+  key: keyof T,
+  ascending: boolean = true,
+): T[] => {
   return array.sort((a, b) => {
     const aValue = a[key];
     const bValue = b[key];
 
-    if (typeof aValue !== 'number' || typeof bValue !== 'number') return 0;
+    if (typeof aValue !== "number" || typeof bValue !== "number") return 0;
 
     if (aValue < bValue) return ascending ? -1 : 1;
     if (aValue > bValue) return ascending ? 1 : -1;
     return 0;
   });
-}
+};
 
 const getApiSortOrder = (sort: SortValue): ApiSortValue => {
   switch (sort) {
@@ -83,4 +87,3 @@ export const useCoins = () => {
 
   return query;
 };
-

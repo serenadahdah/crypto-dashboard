@@ -41,7 +41,7 @@ export default function AppCoinsTable() {
     return coins.filter(
       (coin: Coin) =>
         coin.name?.toLowerCase().includes(query) ||
-        coin.symbol?.toLowerCase().includes(query)
+        coin.symbol?.toLowerCase().includes(query),
     );
   }, [coins, search]);
 

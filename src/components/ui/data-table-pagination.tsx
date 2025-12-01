@@ -106,7 +106,7 @@ export function DataTablePagination({
                   {currentPage}
                 </PaginationLink>
               </PaginationItem>
-            )
+            ),
           )}
 
           <PaginationItem>

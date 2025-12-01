@@ -46,7 +46,7 @@ export function DataTableSortHeader({
       className={cn(
         "flex items-center gap-1 hover:text-foreground transition-colors",
         isActive ? "text-foreground" : "text-muted-foreground",
-        className
+        className,
       )}
     >
       {label}

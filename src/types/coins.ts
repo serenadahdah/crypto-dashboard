@@ -28,7 +28,7 @@ export type Coin = {
 };
 
 type Roi = {
-    times: number;
-    currency: string;
-    percentage: number;
-}
+  times: number;
+  currency: string;
+  percentage: number;
+};

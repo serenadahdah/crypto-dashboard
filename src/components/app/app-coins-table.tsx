@@ -77,7 +77,7 @@ export default function AppCoinsTable() {
         <TableHeader>
           <TableRow>
             <TableHead className="w-12">#</TableHead>
-            <TableHead>Coin</TableHead>
+            <TableHead className="min-w-48">Coin</TableHead>
             <TableHead>
               <DataTableSortHeader label="Price" field="price" />
             </TableHead>
@@ -108,12 +108,13 @@ export default function AppCoinsTable() {
                 <TableCell className="text-center">
                   {(page - 1) * pageSize + index + 1}
                 </TableCell>
-                <TableCell className="flex items-center gap-2">
+                <TableCell className="flex items-center gap-2 whitespace-normal">
                   <img
                     src={coin.image}
                     alt={coin.name}
                     width={24}
                     height={24}
+                    className="shrink-0"
                   />
                   {coin.name} ({coin.symbol?.toUpperCase()})
                 </TableCell>

@@ -59,7 +59,7 @@ export function DataTablePagination({
   const pageNumbers = generatePageNumbers();
 
   return (
-    <div className="flex items-center justify-between px-2">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
       <div className="flex items-center space-x-2">
         <p className="text-sm font-medium">Rows</p>
         <Select

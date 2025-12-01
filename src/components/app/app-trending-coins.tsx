@@ -12,7 +12,7 @@ export function AppTrendingCoins() {
 
   if (isLoading) {
     return (
-      <div className="flex gap-4 overflow-x-auto pb-2">
+      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hover">
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
@@ -38,7 +38,7 @@ export function AppTrendingCoins() {
   const trendingCoins = data.coins ?? [];
 
   return (
-    <div className="flex gap-4 overflow-x-auto pb-2">
+    <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hover">
       {trendingCoins.map((coin: TrendingCoin) => (
         <TrendingCoinCard key={coin.item.id} coin={coin.item} />
       ))}

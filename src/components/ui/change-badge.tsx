@@ -12,11 +12,14 @@ export function ChangeBadge({ value, className }: ChangeBadgeProps) {
     <span
       className={cn(
         "inline-flex px-2 py-0.5 rounded-full text-sm font-medium",
-        isPositive ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive",
-        className
+        isPositive
+          ? "bg-success/10 text-success"
+          : "bg-destructive/10 text-destructive",
+        className,
       )}
     >
-      {isPositive ? "+" : ""}{value.toFixed(2)}%
+      {isPositive ? "+" : ""}
+      {value.toFixed(2)}%
     </span>
   );
 }

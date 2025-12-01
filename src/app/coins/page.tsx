@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import AppCoinsTable from "@/components/app-coins-table";
-import { AppTrendingCoins } from "@/components/app-trending-coins";
+import AppCoinsTable from "@/components/app/app-coins-table";
+import { AppTrendingCoins } from "@/components/app/app-trending-coins";
 
 export default function CoinsPage() {
   return (

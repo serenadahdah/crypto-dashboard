@@ -1,6 +1,6 @@
 import Providers from "@/app/providers";
-import { AppBreadcrumb } from "@/components/app-breadcrumb";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppBreadcrumb } from "@/components/app/app-breadcrumb";
+import { AppSidebar } from "@/components/app/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -11,6 +11,7 @@ import { WalletConnectButton } from "@/components/wallet-connect-button";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +55,7 @@ export default function RootLayout({
             </SidebarInset>
           </SidebarProvider>
         </Providers>
+        <Toaster />
       </body>
     </html>
   );

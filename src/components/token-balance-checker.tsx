@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useConnection, useReadContracts } from "wagmi";
-import { isAddress, formatUnits, type Address } from "viem";
-import { Input } from "@/components/ui/input";
+import { AppBanner } from "@/components/app/app-banner";
+import { AppCard } from "@/components/app/app-card";
+import { AppEmptyState } from "@/components/app/app-empty-state";
+import { AppInput } from "@/components/app/app-input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Coins, Search, Wallet } from "lucide-react";
+import { Coins, Search, Wallet } from "lucide-react";
+import { useState } from "react";
+import { formatUnits, isAddress, type Address } from "viem";
+import { useConnection, useReadContracts } from "wagmi";
 
 const erc20Abi = [
   {
@@ -152,57 +155,36 @@ export function TokenBalanceChecker() {
 
   if (!isConnected) {
     return (
-      <div className="rounded-lg border bg-card p-6">
-        <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
-          <div className="rounded-full bg-muted p-4">
-            <Wallet className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <div>
-            <h3 className="font-semibold">Wallet Not Connected</h3>
-            <p className="text-sm text-muted-foreground">
-              Connect your wallet to check token balances
-            </p>
-          </div>
-        </div>
-      </div>
+      <AppEmptyState
+        title="Wallet Not Connected"
+        description="Connect your wallet to check token balances"
+        icon={<Wallet />}
+      />
     );
   }
 
   return (
-    <div className="rounded-lg border bg-card p-6">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          <Coins className="h-5 w-5" />
-          Token Balance Checker
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Enter an ERC-20 token contract address to check your balance
-        </p>
-      </div>
-
+    <AppCard
+      title="Token Balance Checker"
+      description="Enter an ERC-20 token contract address to check your balance"
+      icon={<Coins className="h-5 w-5" />}
+    >
       <div className="flex gap-2">
-        <Input
+        <AppInput
           placeholder="0x... (Token Contract Address)"
           value={tokenAddress}
+          error={error}
           onChange={(e) => {
             setTokenAddress(e.target.value);
             setError(null);
           }}
           onKeyDown={handleKeyDown}
-          className={error ? "border-destructive" : ""}
         />
         <Button onClick={handleSearch} disabled={isLoading}>
           <Search className="h-4 w-4" />
           Search
         </Button>
       </div>
-
-      {error && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-destructive">
-          <AlertCircle className="h-4 w-4" />
-          {error}
-        </div>
-      )}
 
       {isLoading && (
         <div className="mt-6 space-y-3">
@@ -213,29 +195,25 @@ export function TokenBalanceChecker() {
       )}
 
       {isError && !isLoading && searchedToken && (
-        <div className="mt-6 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-destructive mt-0.5" />
-            <div>
-              <h4 className="font-medium text-destructive">
-                Failed to fetch token data
-              </h4>
-              <p className="text-sm text-muted-foreground mt-1">
-                {contractError?.message?.includes("could not be found")
-                  ? "This address may not be a valid ERC-20 token contract"
-                  : "There was an error fetching the token data. Please check the address and try again."}
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-3"
-                onClick={() => refetch()}
-              >
-                Try Again
-              </Button>
-            </div>
-          </div>
-        </div>
+        <AppBanner
+          variant="error"
+          title="Failed to fetch token data"
+          description={
+            contractError?.message?.includes("could not be found")
+              ? "This address may not be a valid ERC-20 token contract"
+              : "There was an error fetching the token data. Please check the address and try again."
+          }
+          className="mt-6"
+        >
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-3"
+            onClick={() => refetch()}
+          >
+            Try Again
+          </Button>
+        </AppBanner>
       )}
 
       {tokenInfo && !isLoading && (
@@ -277,6 +255,6 @@ export function TokenBalanceChecker() {
           </p>
         </div>
       )}
-    </div>
+    </AppCard>
   );
 }

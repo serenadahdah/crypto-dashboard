@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePaginationParams } from "@/hooks/use-pagination-params";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DataTablePaginationProps {
   isLoading?: boolean;
@@ -30,9 +31,11 @@ export function DataTablePagination({
 }: DataTablePaginationProps) {
   const { page, pageSize, goToPage, changePageSize, hasPreviousPage } =
     usePaginationParams();
+  const isMobile = useIsMobile();
+
   const generatePageNumbers = () => {
     const pages: (number | "ellipsis")[] = [];
-    const siblingsCount = 2;
+    const siblingsCount = isMobile ? 1 : 2;
 
     pages.push(1);
 

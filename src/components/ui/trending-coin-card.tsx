@@ -6,7 +6,7 @@ interface TrendingCoinCardProps {
 
 export function TrendingCoinCard({ coin }: TrendingCoinCardProps) {
   return (
-    <div className="bg-muted/50 rounded-xl p-4 flex flex-col gap-2 min-w-[180px] shrink-0">
+    <div className="bg-muted/50 hover:bg-white hover:shadow-md border border-border rounded-xl p-4 flex flex-col gap-2 min-w-[180px] shrink-0 transition-all">
       <div className="flex items-center gap-2">
         <img
           src={coin.thumb}

@@ -8,7 +8,7 @@ export default function CoinsPage() {
       <h2 className="text-lg font-semibold">Trending Coins</h2>
       <AppTrendingCoins />
       <h2 className="text-lg font-semibold mt-4">All Coins</h2>
-      <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min p-4">
+      <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min p-4 border border-border">
         <Suspense fallback={<div>Loading...</div>}>
           <AppCoinsTable />
         </Suspense>

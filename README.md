@@ -1,3 +1,7 @@
+## Deployed App
+
+🔗 **[https://crypto-dashboard-nu-navy.vercel.app](https://crypto-dashboard-nu-navy.vercel.app/coins)**
+
 ## Environment Variables
 
 Create a `.env.local` file in the root of the project and add the following environment variables:
